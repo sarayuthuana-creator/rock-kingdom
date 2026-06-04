@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ภารกิจกู้อาณาจักรหิน</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Kanit',sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff8a00,#ff3d00);
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:500px;
+background:white;
+padding:30px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
+text-align:center;
+}
+
+h1{
+color:#ff5722;
+margin-bottom:10px;
+}
+
+.subtitle{
+margin-bottom:25px;
+color:#555;
+}
+
+input{
+width:100%;
+padding:15px;
+margin-bottom:15px;
+border:none;
+border-radius:12px;
+background:#f2f2f2;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:15px;
+background:linear-gradient(90deg,#667eea,#764ba2);
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+}
+
+.crystal{
+font-size:50px;
+margin-bottom:15px;
+animation:float 2s infinite;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="crystal">💎</div>
+
+<h1>ภารกิจกู้อาณาจักรหิน</h1>
+
+<p class="subtitle">
+เกมเรียนรู้เรื่องหินและวัฏจักรหิน<br>
+ระดับชั้นประถมศึกษาปีที่ 6
+</p>
+
+<input type="text" id="name" placeholder="ชื่อ - นามสกุล">
+
+<input type="text" id="classroom" placeholder="ชั้นเรียน เช่น ป.6">
+
+<input type="number" id="number" placeholder="เลขที่">
+
+<button onclick="startGame()">
+🚀 เริ่มภารกิจ
+</button>
+
+</div>
+
+<script>
+
+function startGame(){
+
+const name=document.getElementById("name").value.trim();
+const classroom=document.getElementById("classroom").value.trim();
+const number=document.getElementById("number").value.trim();
+
+if(name===""||classroom===""||number===""){
+alert("กรุณากรอกข้อมูลให้ครบ");
+return;
+}
+
+localStorage.setItem("playerName",name);
+localStorage.setItem("playerClass",classroom);
+localStorage.setItem("playerNo",number);
+
+localStorage.setItem("totalScore",0);
+
+window.location.href="game1.html";
+
+}
+
+</script>
+
+</body>
+</html>
