@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard - ภารกิจกู้อาณาจักรหิน</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Prompt:wght@400;600;700&display=swap');
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:20px;
+  min-height:100vh;
+  font-family:'Prompt','Mali',sans-serif;
+  background:linear-gradient(135deg,#fff8e1,#e3f2fd,#f3e5f5);
+  color:#263238;
+}
+.container{
+  max-width:1050px;
+  margin:auto;
+  background:rgba(255,255,255,.96);
+  padding:26px;
+  border-radius:28px;
+  box-shadow:0 18px 45px rgba(0,0,0,.18);
+  border:4px solid rgba(255,255,255,.75);
+}
+h1,h2{
+  font-family:'Mali','Prompt',sans-serif;
+  text-align:center;
+  text-shadow:2px 4px 0 rgba(0,0,0,.08);
+}
+h1{color:#f57f17}
+.subtitle{text-align:center;color:#64727c;font-weight:600}
+.loading{text-align:center;font-size:22px;padding:30px}
+.top-card{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin:22px 0;
+}
+.card{
+  text-align:center;
+  padding:18px;
+  border-radius:22px;
+  background:linear-gradient(180deg,#ffffff,#fff8e1);
+  box-shadow:0 7px 0 #fbc02d;
+  border:3px solid #ffe082;
+}
+.card .rank{font-size:42px}
+.card .name{font-size:20px;font-weight:700}
+.card .score{font-size:26px;color:#ef6c00;font-weight:700}
+.table-wrap{overflow-x:auto;margin-top:20px}
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 10px;
+}
+th{
+  background:#263238;
+  color:white;
+  padding:14px;
+  font-size:17px;
+}
+td{
+  background:#f8fbff;
+  padding:14px;
+  text-align:center;
+  font-weight:600;
+}
+tr td:first-child{border-radius:16px 0 0 16px}
+tr td:last-child{border-radius:0 16px 16px 0}
+.rank1 td{background:#fff8e1!important}
+.rank2 td{background:#eceff1!important}
+.rank3 td{background:#fbe9e7!important}
+.badge{font-size:24px}
+.refresh{
+  display:block;
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  border:0;
+  border-radius:18px;
+  background:linear-gradient(180deg,#42a5f5,#1565c0);
+  color:white;
+  font-size:19px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 6px 0 #0d47a1;
+}
+.note{
+  text-align:center;
+  margin-top:14px;
+  color:#667;
+  font-size:14px;
+}
+@media(max-width:720px){
+  body{padding:12px}
+  .container{padding:16px;border-radius:22px}
+  .top-card{grid-template-columns:1fr}
+  th,td{font-size:14px;padding:10px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🏆 ตารางคะแนนผู้กล้าอาณาจักรหิน</h1>
+<p class="subtitle">แสดงอันดับ Top 20 จากคะแนนรวมสูงสุด</p>
+
+<div id="content" class="loading">⏳ กำลังโหลดคะแนน...</div>
+
+<button class="refresh" onclick="loadLeaderboard()">🔄 โหลดคะแนนใหม่</button>
+<p class="note">คะแนนรวมสูงสุด 120 คะแนน | ดึงข้อมูลจาก Google Sheet</p>
+</div>
+
+<script>
+const WEBAPP="https://script.google.com/macros/s/AKfycbwvFtdoQhD6QBjf5P7kZQybUfg_FynntsI4Ond_0PcCFNDq_7vJSeqCXu_i5lbm0njbjQ/exec";
+
+async function loadLeaderboard(){
+ const content=document.getElementById("content");
+ content.className="loading";
+ content.innerHTML="⏳ กำลังโหลดคะแนน...";
+
+ try{
+  const res=await fetch(WEBAPP);
+  const values=await res.json();
+
+  if(!values || values.length<2){
+    content.innerHTML="ยังไม่มีข้อมูลคะแนน";
+    return;
+  }
+
+  const rows=values.slice(1);
+  const students={};
+
+  rows.forEach(row=>{
+    const name=row[1] || "";
+    const classroom=row[2] || "";
+    const no=row[3] || "";
+    const stage=row[4] || "";
+    const score=Number(row[5] || 0);
+
+    if(!name)return;
+
+    const key=name+"|"+classroom+"|"+no;
+
+    if(!students[key]){
+      students[key]={
+        name:name,
+        classroom:classroom,
+        no:no,
+        stages:{},
+        total:0
+      };
+    }
+
+    const stageKey=String(stage).trim();
+    if(students[key].stages[stageKey]===undefined || score>students[key].stages[stageKey]){
+      students[key].stages[stageKey]=score;
+    }
+  });
+
+  const list=Object.values(students).map(s=>{
+    const total=
+      Number(s.stages.Pretest || 0)+
+      Number(s.stages.Igneous || 0)+
+      Number(s.stages.Sedimentary || 0)+
+      Number(s.stages.Metamorphic || 0)+
+      Number(s.stages.RockCycle || 0)+
+      Number(s.stages.Posttest || 0);
+
+    s.total=total;
+    return s;
+  }).sort((a,b)=>b.total-a.total).slice(0,20);
+
+  render(list);
+
+ }catch(err){
+  content.innerHTML="⚠️ โหลดข้อมูลไม่สำเร็จ กรุณาตรวจสอบลิงก์ Apps Script หรือการ Deploy";
+ }
+}
+
+function render(list){
+ const content=document.getElementById("content");
+ content.className="";
+
+ if(list.length===0){
+  content.innerHTML="ยังไม่มีข้อมูลคะแนน";
+  return;
+ }
+
+ const top=list.slice(0,3);
+ let topHtml='<div class="top-card">';
+ top.forEach((s,i)=>{
+  const icons=["🥇","🥈","🥉"];
+  topHtml+=`
+  <div class="card">
+    <div class="rank">${icons[i]}</div>
+    <div class="name">${s.name}</div>
+    <div>ชั้น ${s.classroom} เลขที่ ${s.no}</div>
+    <div class="score">${s.total} / 120</div>
+  </div>`;
+ });
+ topHtml+='</div>';
+
+ let table=`
+ <div class="table-wrap">
+ <table>
+ <thead>
+ <tr>
+  <th>อันดับ</th>
+  <th>ชื่อ</th>
+  <th>ชั้น</th>
+  <th>เลขที่</th>
+  <th>คะแนนรวม</th>
+  <th>ผลึก</th>
+ </tr>
+ </thead>
+ <tbody>`;
+
+ list.forEach((s,i)=>{
+  const cls=i===0?"rank1":i===1?"rank2":i===2?"rank3":"";
+  const crystals=[
+    s.stages.Igneous!==undefined?"🔴💎":"",
+    s.stages.Sedimentary!==undefined?"🔵💎":"",
+    s.stages.Metamorphic!==undefined?"🟣💎":"",
+    s.stages.RockCycle!==undefined?"🟢💎":""
+  ].join(" ");
+
+  table+=`
+  <tr class="${cls}">
+    <td class="badge">${i+1<=3?["🥇","🥈","🥉"][i]:i+1}</td>
+    <td>${s.name}</td>
+    <td>${s.classroom}</td>
+    <td>${s.no}</td>
+    <td><b>${s.total} / 120</b></td>
+    <td>${crystals || "-"}</td>
+  </tr>`;
+ });
+
+ table+='</tbody></table></div>';
+ content.innerHTML=topHtml+table;
+}
+
+loadLeaderboard();
+</script>
+</body>
+</html>
