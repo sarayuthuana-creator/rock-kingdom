@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Posttest - ภารกิจกู้อาณาจักรหิน</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Prompt:wght@400;600;700&display=swap');
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:20px;
+  font-family:'Prompt','Mali',sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#fff3e0,#fce4ec,#f8fcff);
+  color:#253247;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  background:rgba(255,255,255,.95);
+  padding:26px;
+  border-radius:28px;
+  box-shadow:0 18px 45px rgba(0,0,0,.18);
+  border:4px solid rgba(255,255,255,.75);
+}
+h1,h2{
+  font-family:'Mali','Prompt',sans-serif;
+  text-align:center;
+  text-shadow:2px 4px 0 rgba(0,0,0,.08);
+}
+h1{color:#ef6c00}
+.subtitle{text-align:center;color:#6b5f50;font-weight:600}
+.progress{
+  height:18px;
+  background:#f3dfc9;
+  border-radius:30px;
+  overflow:hidden;
+  margin:20px 0 10px;
+}
+.bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#ff9800,#ffc107);
+  transition:.25s;
+}
+.status{
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+  margin-bottom:20px;
+}
+.question{
+  font-size:23px;
+  font-weight:700;
+  margin:20px 0;
+  background:#fffaf3;
+  padding:18px;
+  border-radius:20px;
+  border-left:8px solid #ff9800;
+}
+button{
+  display:block;
+  width:100%;
+  padding:15px;
+  margin:10px 0;
+  border:0;
+  border-radius:18px;
+  background:linear-gradient(180deg,#ffffff,#fff3e0);
+  font-size:18px;
+  cursor:pointer;
+  box-shadow:0 5px 0 #e6c28c;
+  transition:.15s;
+}
+button:hover{transform:translateY(-2px)}
+.correct{background:#c8e6c9!important;color:#1b5e20}
+.wrong{background:#ffcdd2!important;color:#b71c1c}
+.result{text-align:center}
+.result h2{font-size:38px;color:#ff9800}
+.crystal{
+  font-size:78px;
+  margin:8px 0;
+  animation:pulse 1.1s infinite alternate;
+}
+.summary{
+  background:#fff8e1;
+  border-radius:18px;
+  padding:14px;
+  margin-top:14px;
+  font-weight:700;
+}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.14)}}
+@media(max-width:700px){
+  body{padding:12px}
+  .container{padding:18px;border-radius:22px}
+  .status{font-size:14px}
+  .question{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🎓 แบบทดสอบหลังเรียน</h1>
+<p class="subtitle">ภารกิจกู้อาณาจักรหิน | ทดสอบพลังความรู้หลังจบทุกด่าน</p>
+
+<div class="progress"><div id="bar" class="bar"></div></div>
+
+<div class="status">
+  <span id="count">ข้อ 1 / 10</span>
+  <span id="scoreText">คะแนน: 0</span>
+</div>
+
+<div id="quiz">
+  <div id="question" class="question"></div>
+  <div id="answers"></div>
+</div>
+</div>
+
+<script>
+const WEBAPP="https://script.google.com/macros/s/AKfycbwvFtdoQhD6QBjf5P7kZQybUfg_FynntsI4Ond_0PcCFNDq_7vJSeqCXu_i5lbm0njbjQ/exec";
+
+const questions=[
+{q:"หินอัคนีเกิดจากอะไร",a:["การสะสมตะกอน","การเย็นตัวของแมกมา","การแปรสภาพของหิน","การผุพังของหิน"],c:1},
+{q:"หินชนิดใดเป็นหินอัคนีพุ",a:["แกรนิต","บะซอลต์","หินอ่อน","หินปูน"],c:1},
+{q:"หินปูนเกิดจากอะไร",a:["ซากสิ่งมีชีวิตทะเล","แมกมา","ลาวา","ควอตซ์"],c:0},
+{q:"หินทรายประกอบด้วยอะไรเป็นหลัก",a:["ดินเหนียว","กรวด","เม็ดทราย","แร่ไมกา"],c:2},
+{q:"หินชนิดใดเป็นหินแปร",a:["หินปูน","หินอ่อน","หินทราย","หินบะซอลต์"],c:1},
+{q:"หินชนวนแปรมาจากหินใด",a:["หินดินดาน","หินปูน","หินทราย","หินแกรนิต"],c:0},
+{q:"กระบวนการใดทำให้เกิดหินแปร",a:["การเย็นตัว","การสะสมตัว","ความร้อนและความดัน","การละลาย"],c:2},
+{q:"วัฏจักรหินเริ่มต้นจากอะไร",a:["หินตะกอน","แมกมา","หินแปร","หินทราย"],c:1},
+{q:"ตะกอนเมื่ออัดแน่นจะกลายเป็นอะไร",a:["หินตะกอน","หินอ่อน","แมกมา","หินแปร"],c:0},
+{q:"หินแปรเมื่อหลอมเหลวจะกลายเป็นอะไร",a:["ตะกอน","หินตะกอน","แมกมา","หินอัคนี"],c:2}
+];
+
+questions.sort(()=>Math.random()-0.5);
+
+let current=0;
+let score=0;
+let startTime=Date.now();
+
+function showQuestion(){
+ if(current>=questions.length){
+  finishQuiz();
+  return;
+ }
+
+ const item=questions[current];
+
+ document.getElementById("count").textContent=`ข้อ ${current+1} / 10`;
+ document.getElementById("scoreText").textContent=`คะแนน: ${score}`;
+ document.getElementById("bar").style.width=(current/questions.length*100)+"%";
+ document.getElementById("question").textContent=item.q;
+
+ const answers=document.getElementById("answers");
+ answers.innerHTML="";
+
+ const choices=item.a.map((text,index)=>({text,index})).sort(()=>Math.random()-0.5);
+
+ choices.forEach(choice=>{
+  const btn=document.createElement("button");
+  btn.textContent=choice.text;
+  btn.onclick=()=>{
+   const all=document.querySelectorAll("button");
+   all.forEach(b=>b.disabled=true);
+
+   if(choice.index===item.c){
+    score++;
+    btn.classList.add("correct");
+   }else{
+    btn.classList.add("wrong");
+    all.forEach(b=>{if(b.textContent===item.a[item.c])b.classList.add("correct");});
+   }
+
+   setTimeout(()=>{current++;showQuestion();},650);
+  };
+  answers.appendChild(btn);
+ });
+}
+
+function finishQuiz(){
+ const playtime=Math.round((Date.now()-startTime)/1000);
+ localStorage.setItem("posttestScore",score);
+
+ const total=
+ Number(localStorage.getItem("pretestScore")||0)+
+ Number(localStorage.getItem("score1")||0)+
+ Number(localStorage.getItem("score2")||0)+
+ Number(localStorage.getItem("score3")||0)+
+ Number(localStorage.getItem("score4")||0)+
+ Number(score);
+
+ localStorage.setItem("totalScore",total);
+
+ fetch(WEBAPP,{method:"POST",body:JSON.stringify({
+  name:localStorage.getItem("playerName")||"",
+  classroom:localStorage.getItem("playerClass")||"",
+  number:localStorage.getItem("playerNo")||"",
+  stage:"Posttest",
+  score:score,
+  crystal:"",
+  total:total,
+  playtime:String(playtime),
+  device:navigator.userAgent
+ })}).catch(()=>{});
+
+ document.querySelector(".container").innerHTML=`
+ <div class="result">
+ <div class="crystal">🏆✨</div>
+ <h1>🎉 ทำแบบทดสอบหลังเรียนเสร็จแล้ว</h1>
+ <h2>${score} / 10 คะแนน</h2>
+ <div class="summary">คะแนนรวมตอนนี้: ${total} / 120</div>
+ <p>💎 บันทึกคะแนนเรียบร้อยแล้ว</p>
+ <p>🏰 กรุณากลับสู่หน้าหลัก เพื่อทำภารกิจถัดไป</p>
+ </div>`;
+}
+
+showQuestion();
+</script>
+</body>
+</html>
