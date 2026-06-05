@@ -103,7 +103,7 @@ tr td:last-child{border-radius:0 16px 16px 0}
 </head>
 <body>
 <div class="container">
-<h1>🏆 ตารางคะแนนผู้กล้าอาณาจักรหิน</h1>
+<h1>🏆 ตารางคะแนนแท่นเกียรติยศอาณาจักรหิน</h1>
 <p class="subtitle">แสดงอันดับ Top 20 จากคะแนนรวมสูงสุด</p>
 
 <div id="content" class="loading">⏳ กำลังโหลดคะแนน...</div>
@@ -220,10 +220,10 @@ function render(list){
  list.forEach((s,i)=>{
   const cls=i===0?"rank1":i===1?"rank2":i===2?"rank3":"";
   const crystals=[
-    s.stages.Igneous!==undefined?"🔴💎":"",
-    s.stages.Sedimentary!==undefined?"🔵💎":"",
-    s.stages.Metamorphic!==undefined?"🟣💎":"",
-    s.stages.RockCycle!==undefined?"🟢💎":""
+    s.stages.Igneous!==undefined?"🔴":"",
+    s.stages.Sedimentary!==undefined?"🔵":"",
+    s.stages.Metamorphic!==undefined?"🟣":"",
+    s.stages.RockCycle!==undefined?"🟢":""
   ].join(" ");
 
   table+=`
