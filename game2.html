@@ -39,6 +39,23 @@ h1{color:#0277bd}.subtitle{text-align:center;color:#5f6f89;font-weight:600}
 .crystal{font-size:78px;margin:8px 0;animation:pulse 1.1s infinite alternate}
 @keyframes pulse{from{transform:scale(1)}to{transform:scale(1.14)}}
 @media(max-width:720px){body{padding:12px}.container{padding:18px;border-radius:22px}.gamearea{grid-template-columns:1fr}.scorebox{font-size:14px}}
+
+.homeBtn{
+  display:inline-block;
+  margin-top:15px;
+  padding:14px 24px;
+  background:linear-gradient(180deg,#ff9800,#f57c00);
+  color:white;
+  text-decoration:none;
+  border-radius:16px;
+  font-size:18px;
+  font-weight:bold;
+  box-shadow:0 5px 0 #e65100;
+  transition:0.2s;
+}
+.homeBtn:hover{transform:translateY(-2px)}
+.homeBtn:active{transform:translateY(3px)}
+
 </style>
 </head>
 <body>
@@ -58,6 +75,30 @@ h1{color:#0277bd}.subtitle{text-align:center;color:#5f6f89;font-weight:600}
 
 <script>
 const WEBAPP="https://script.google.com/macros/s/AKfycbwvFtdoQhD6QBjf5P7kZQybUfg_FynntsI4Ond_0PcCFNDq_7vJSeqCXu_i5lbm0njbjQ/exec";
+const HOME_URL="https://krusarayut.my.canva.site/rockkingdom/-home";
+const DONE_URL="https://krusarayut.my.canva.site/rockkingdom/-home";
+const DONE_LABEL="🏠 กลับสู่ศูนย์บัญชาการเกม";
+const SCORE_KEY="score2";
+const MISSION_NAME="หุบเขาหินตะกอน";
+checkAlreadyDone();
+
+function checkAlreadyDone(){
+  const oldScore=localStorage.getItem(SCORE_KEY);
+  if(oldScore!==null){
+    document.querySelector(".container").innerHTML=`
+      <div class="result">
+        <div class="crystal">✅</div>
+        <h1>ภารกิจนี้สำเร็จแล้ว</h1>
+        <h2>คะแนนเดิม: ${oldScore}</h2>
+        <p>คุณเคยทำภารกิจนี้เรียบร้อยแล้ว</p>
+        <p>ไม่จำเป็นต้องทำซ้ำอีกครั้ง</p>
+        <a href="${DONE_URL}" class="homeBtn">${DONE_LABEL}</a>
+      </div>
+    `;
+    throw new Error("Mission already completed");
+  }
+}
+
 const bank=[
 {rock:"หินทราย",desc:"ประกอบด้วยเม็ดทรายขนาดปานกลาง"},
 {rock:"หินดินดาน",desc:"เนื้อละเอียด สีเข้ม แตกเป็นแผ่นบางได้"},
@@ -199,7 +240,7 @@ function finishGame(score){
  <h2>${score} / 25 คะแนน</h2>
  <p>💎 ได้รับผลึกสีฟ้า</p>
  <p>💎 บันทึกคะแนนเรียบร้อยแล้ว</p>
- <p>🏰 กรุณากลับสู่หน้าหลัก เพื่อทำภารกิจถัดไป</p>
+ <p>🏰 กรุณากลับสู่ศูนย์บัญชาการเกม เพื่อทำภารกิจถัดไป</p>\n <a href="https://krusarayut.my.canva.site/rockkingdom/-home" class="homeBtn">🏠 กลับสู่ศูนย์บัญชาการเกม</a>
  </div>`;
 }
 
