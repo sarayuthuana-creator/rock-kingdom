@@ -5,247 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Game1 - หุบเขาหินอัคนี</title>
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Prompt:wght@400;600;700&display=swap');
 *{box-sizing:border-box}
-body{
-  margin:0;
-  padding:20px;
-  font-family:'Prompt','Mali',sans-serif;
-  min-height:100vh;
-  color:#253247;
-}
-.container{
-  max-width:900px;
-  margin:auto;
-  background:rgba(255,255,255,.94);
-  padding:26px;
-  border-radius:28px;
-  box-shadow:0 18px 45px rgba(0,0,0,.18);
-  border:4px solid rgba(255,255,255,.7);
-}
-h1,h2{
-  font-family:'Mali','Prompt',sans-serif;
-  text-align:center;
-  text-shadow:2px 4px 0 rgba(0,0,0,.08);
-}
-.subtitle{text-align:center;color:#5f6f89;font-weight:600}
-.progress{
-  height:18px;
-  background:#dbe5f1;
-  border-radius:30px;
-  overflow:hidden;
-  margin:20px 0 10px;
-}
-.bar{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#4caf50,#8bc34a);
-  transition:.25s;
-}
-.status{
-  display:flex;
-  justify-content:space-between;
-  font-weight:700;
-  margin-bottom:20px;
-}
-.question{
-  font-size:23px;
-  font-weight:700;
-  margin:20px 0;
-  background:#f6fbff;
-  padding:18px;
-  border-radius:20px;
-  border-left:8px solid #42a5f5;
-}
-button,.choice{
-  display:block;
-  width:100%;
-  padding:15px;
-  margin:10px 0;
-  border:0;
-  border-radius:18px;
-  background:linear-gradient(180deg,#ffffff,#eef6ff);
-  font-size:18px;
-  cursor:pointer;
-  box-shadow:0 5px 0 #c6d9ef;
-  transition:.15s;
-}
-button:hover,.choice:hover{transform:translateY(-2px)}
-.correct{background:#c8e6c9!important;color:#1b5e20}
-.wrong{background:#ffcdd2!important;color:#b71c1c}
-.result{text-align:center}
-.result h2{font-size:38px;color:#ff9800}
-.crystal{
-  font-size:78px;
-  margin:8px 0;
-  animation:pulse 1.1s infinite alternate;
-}
-@keyframes pulse{
-  from{transform:scale(1)}
-  to{transform:scale(1.14)}
-}
-@media(max-width:700px){
-  body{padding:12px}
-  .container{padding:18px;border-radius:22px}
-  .status{font-size:14px}
-  .question{font-size:20px}
-}
-
-
-body{background:linear-gradient(135deg,#ffebee,#fff3e0,#ffe0e0)}
-h1{color:#b71c1c}
-.scorebox{display:flex;justify-content:space-between;font-weight:700;margin:18px 0}
-.items{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:22px 0}
-.rock{
-  padding:14px 20px;
-  background:linear-gradient(180deg,#fff7e8,#ffd59a);
-  border:3px solid #ef6c00;
-  border-radius:18px;
-  cursor:grab;
-  font-size:19px;
-  font-weight:700;
-  box-shadow:0 6px 0 #c95d00;
-}
-.zones{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.zone{min-height:230px;border:4px dashed #ad8b73;border-radius:22px;padding:15px;background:#fffdf8}
-.zone h2{margin-top:0}.zone.over{background:#fff8e1;border-color:#f57c00}
-.placed{display:block;margin:9px 0;padding:10px;border-radius:12px}
-.mainBtn{background:linear-gradient(180deg,#ef5350,#c62828);color:white;box-shadow:0 6px 0 #8e0000;font-weight:700}
-@media(max-width:700px){.zones{grid-template-columns:1fr}.rock{width:100%;text-align:center}}
-
-
-.homeBtn{
-  display:inline-block;
-  margin-top:15px;
-  padding:14px 24px;
-  background:linear-gradient(180deg,#ff9800,#f57c00);
-  color:white;
-  text-decoration:none;
-  border-radius:16px;
-  font-size:18px;
-  font-weight:bold;
-  box-shadow:0 5px 0 #e65100;
-  transition:0.2s;
-}
-.homeBtn:hover{transform:translateY(-2px)}
-.homeBtn:active{transform:translateY(3px)}
-
+body{margin:0;padding:20px;font-family:'Prompt','Mali',sans-serif;min-height:100vh;color:#253247;background:linear-gradient(135deg,#ffebee,#fff3e0,#ffe0e0)}
+.container{max-width:980px;margin:auto;background:rgba(255,255,255,.95);padding:26px;border-radius:28px;box-shadow:0 18px 45px rgba(0,0,0,.18);border:4px solid rgba(255,255,255,.75)}
+h1,h2{font-family:'Mali','Prompt',sans-serif;text-align:center;text-shadow:2px 4px 0 rgba(0,0,0,.08)}
+h1{color:#b71c1c}.subtitle{text-align:center;color:#5f6f89;font-weight:600}.scorebox{display:flex;justify-content:space-between;font-weight:700;margin:18px 0}
+.questionCard{background:#fffdf8;border:3px solid #ffb74d;border-radius:22px;padding:16px;margin:14px 0;box-shadow:0 6px 0 #ef6c00}.rockName{font-size:22px;font-weight:700;color:#bf360c;margin-bottom:12px}.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}.optionBtn{padding:13px;border-radius:16px;border:3px solid #ffcc80;background:#fff8e1;font-size:17px;font-weight:700;cursor:pointer}.optionBtn.selected{background:#ffe0b2;border-color:#ef6c00;box-shadow:0 4px 0 #bf360c}.correct{background:#c8e6c9!important;border-color:#2e7d32!important;color:#1b5e20}.wrong{background:#ffcdd2!important;border-color:#c62828!important;color:#b71c1c}
+.mainBtn{display:block;width:100%;padding:15px;margin-top:20px;border:0;border-radius:18px;background:linear-gradient(180deg,#ef5350,#c62828);color:white;font-size:20px;font-weight:700;box-shadow:0 6px 0 #8e0000;cursor:pointer}.result{text-align:center}.result h2{font-size:38px;color:#ff9800}.crystal{font-size:78px;margin:8px 0;animation:pulse 1.1s infinite alternate}@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.14)}}.homeBtn{display:inline-block;margin-top:15px;padding:14px 24px;background:linear-gradient(180deg,#ff9800,#f57c00);color:white;text-decoration:none;border-radius:16px;font-size:18px;font-weight:bold;box-shadow:0 5px 0 #e65100;transition:0.2s}.homeBtn:hover{transform:translateY(-2px)}.homeBtn:active{transform:translateY(3px)}
+@media(max-width:620px){body{padding:12px}.container{padding:18px;border-radius:22px}.scorebox{font-size:14px}.options{grid-template-columns:1fr}.rockName{font-size:20px}}
 </style>
 </head>
 <body>
 <div class="container">
 <h1>🔴 หุบเขาหินอัคนี</h1>
-<p class="subtitle">ลากชื่อหินไปวางให้ถูกประเภท เพื่อรับ 🔴💎 ผลึกสีแดง</p>
-<div class="scorebox"><span>คะแนนเต็ม 25</span><span id="liveScore">คะแนน: 0</span></div>
-<div id="items" class="items"></div>
-<div class="zones">
-<div class="zone" data-type="extrusive"><h2>🌋 หินอัคนีพุ</h2><p>เกิดจากลาวาเย็นตัวบนผิวโลก</p></div>
-<div class="zone" data-type="intrusive"><h2>🪨 หินอัคนีแทรกซอน</h2><p>เกิดจากแมกมาเย็นตัวใต้ผิวโลก</p></div>
+<p class="subtitle">แตะเลือกประเภทของหินให้ถูกต้อง เพื่อรับ 🔴💎 ผลึกสีแดง</p>
+<div class="scorebox"><span>คะแนนเต็ม 25</span><span id="answered">ตอบแล้ว: 0 / 5</span></div>
+<div id="questions"></div>
+<button class="mainBtn" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
 </div>
-<button class="mainBtn" onclick="checkAnswer()">ตรวจคำตอบ</button>
-</div>
-
 <script>
 const WEBAPP="https://script.google.com/macros/s/AKfycbwvFtdoQhD6QBjf5P7kZQybUfg_FynntsI4Ond_0PcCFNDq_7vJSeqCXu_i5lbm0njbjQ/exec";
 const HOME_URL="https://krusarayut.my.canva.site/rockkingdom/-home";
-const DONE_URL="https://krusarayut.my.canva.site/rockkingdom/-home";
-const DONE_LABEL="🏠 กลับสู่ศูนย์บัญชาการเกม";
 const SCORE_KEY="score1";
-const MISSION_NAME="หุบเขาหินอัคนี";
 checkAlreadyDone();
-
-function checkAlreadyDone(){
-  const oldScore=localStorage.getItem(SCORE_KEY);
-  if(oldScore!==null){
-    document.querySelector(".container").innerHTML=`
-      <div class="result">
-        <div class="crystal">✅</div>
-        <h1>ภารกิจนี้สำเร็จแล้ว</h1>
-        <h2>คะแนนเดิม: ${oldScore}</h2>
-        <p>คุณเคยทำภารกิจนี้เรียบร้อยแล้ว</p>
-        <p>ไม่จำเป็นต้องทำซ้ำอีกครั้ง</p>
-        <a href="${DONE_URL}" class="homeBtn">${DONE_LABEL}</a>
-      </div>
-    `;
-    throw new Error("Mission already completed");
-  }
-}
-
-const rocks=[
-{name:"บะซอลต์",type:"extrusive"},
-{name:"ไรโอไลต์",type:"extrusive"},
-{name:"ออบซิเดียน",type:"extrusive"},
-{name:"พัมมิซ",type:"extrusive"},
-{name:"สคอเรีย",type:"extrusive"},
-{name:"แกรนิต",type:"intrusive"},
-{name:"ไดออไรต์",type:"intrusive"},
-{name:"แกบโบร",type:"intrusive"},
-{name:"เพริโดไทต์",type:"intrusive"},
-{name:"ไซอีไนต์",type:"intrusive"}
-];
-let selected=rocks.sort(()=>Math.random()-0.5).slice(0,5);
-let startTime=Date.now();
-function renderItems(){
- const box=document.getElementById("items");
- selected.forEach((r,i)=>{
-  const div=document.createElement("div");
-  div.className="rock";
-  div.draggable=true;
-  div.textContent=r.name;
-  div.dataset.type=r.type;
-  div.id="rock"+i;
-  div.addEventListener("dragstart",e=>e.dataTransfer.setData("id",div.id));
-  box.appendChild(div);
- });
-}
-document.querySelectorAll(".zone").forEach(zone=>{
- zone.addEventListener("dragover",e=>{e.preventDefault();zone.classList.add("over")});
- zone.addEventListener("dragleave",()=>zone.classList.remove("over"));
- zone.addEventListener("drop",e=>{
-  e.preventDefault();zone.classList.remove("over");
-  const id=e.dataTransfer.getData("id");
-  const item=document.getElementById(id);
-  if(item){item.classList.add("placed");zone.appendChild(item);}
- });
-});
-function checkAnswer(){
- let correct=0;
- document.querySelectorAll(".rock").forEach(item=>{
-  const parent=item.parentElement;
-  if(parent.classList.contains("zone")&&item.dataset.type===parent.dataset.type){
-   correct++;item.classList.add("correct");item.classList.remove("wrong");
-  }else{item.classList.add("wrong");item.classList.remove("correct");}
- });
- const score=correct*5;
- document.getElementById("liveScore").textContent="คะแนน: "+score;
- localStorage.setItem("score1",score);
- if(score>0)localStorage.setItem("crystal1","แดง");
- sendScore(score);
- showResult(score);
-}
-function sendScore(score){
- const total=Number(localStorage.getItem("pretestScore")||0)+Number(score)+Number(localStorage.getItem("score2")||0)+Number(localStorage.getItem("score3")||0)+Number(localStorage.getItem("score4")||0)+Number(localStorage.getItem("posttestScore")||0);
- const playtime=Math.round((Date.now()-startTime)/1000);
- fetch(WEBAPP,{method:"POST",body:JSON.stringify({
-  name:localStorage.getItem("playerName")||"",
-  classroom:localStorage.getItem("playerClass")||"",
-  number:localStorage.getItem("playerNo")||"",
-  stage:"Igneous",score:score,crystal:"แดง",total:total,playtime:String(playtime),device:navigator.userAgent
- })}).catch(()=>{});
-}
-function showResult(score){
- document.querySelector(".container").innerHTML=`
- <div class="result">
- <div class="crystal">🔴💎</div>
- <h1>🎉 พิชิตหุบเขาหินอัคนีสำเร็จ</h1>
- <h2>${score} / 25 คะแนน</h2>
- <p>💎 ได้รับผลึกสีแดง</p>
- <p>💎 บันทึกคะแนนเรียบร้อยแล้ว</p>
- <p>🏰 กรุณากลับสู่ศูนย์บัญชาการเกม เพื่อทำภารกิจถัดไป</p>\n <a href="https://krusarayut.my.canva.site/rockkingdom/-home" class="homeBtn">🏠 กลับสู่ศูนย์บัญชาการเกม</a>
- </div>`;
-}
-renderItems();
+function checkAlreadyDone(){const oldScore=localStorage.getItem(SCORE_KEY);if(oldScore!==null){document.querySelector(".container").innerHTML=`<div class="result"><div class="crystal">✅</div><h1>ภารกิจนี้สำเร็จแล้ว</h1><h2>คะแนนเดิม: ${oldScore}</h2><p>คุณเคยทำภารกิจนี้เรียบร้อยแล้ว</p><p>ไม่จำเป็นต้องทำซ้ำอีกครั้ง</p><a href="${HOME_URL}" class="homeBtn">🏠 กลับสู่ศูนย์บัญชาการเกม</a></div>`;throw new Error("Mission already completed");}}
+const rocks=[{name:"บะซอลต์",type:"extrusive"},{name:"ไรโอไลต์",type:"extrusive"},{name:"ออบซิเดียน",type:"extrusive"},{name:"พัมมิซ",type:"extrusive"},{name:"สคอเรีย",type:"extrusive"},{name:"แกรนิต",type:"intrusive"},{name:"ไดออไรต์",type:"intrusive"},{name:"แกบโบร",type:"intrusive"},{name:"เพริโดไทต์",type:"intrusive"},{name:"ไซอีไนต์",type:"intrusive"}];
+let selected=rocks.sort(()=>Math.random()-0.5).slice(0,5),answers={},checked=false,startTime=Date.now();
+function render(){const box=document.getElementById("questions");box.innerHTML="";selected.forEach((r,i)=>{const div=document.createElement("div");div.className="questionCard";div.innerHTML=`<div class="rockName">${i+1}. 🪨 ${r.name}</div><div class="options"><button class="optionBtn" data-index="${i}" data-value="extrusive">🌋 หินอัคนีพุ</button><button class="optionBtn" data-index="${i}" data-value="intrusive">🪨 หินอัคนีแทรกซอน</button></div>`;box.appendChild(div);});document.querySelectorAll(".optionBtn").forEach(btn=>{btn.onclick=()=>{if(checked)return;const index=btn.dataset.index;answers[index]=btn.dataset.value;document.querySelectorAll(`.optionBtn[data-index="${index}"]`).forEach(b=>b.classList.remove("selected"));btn.classList.add("selected");document.getElementById("answered").textContent=`ตอบแล้ว: ${Object.keys(answers).length} / 5`;};});}
+function checkAnswer(){if(checked)return;if(Object.keys(answers).length<5){alert("กรุณาเลือกคำตอบให้ครบ 5 ข้อก่อนตรวจคำตอบ");return;}checked=true;let correct=0;selected.forEach((r,i)=>{const picked=answers[i];const buttons=document.querySelectorAll(`.optionBtn[data-index="${i}"]`);buttons.forEach(btn=>{if(btn.dataset.value===r.type)btn.classList.add("correct");if(btn.dataset.value===picked&&picked!==r.type)btn.classList.add("wrong");});if(picked===r.type)correct++;});const score=correct*5;setTimeout(()=>finishGame(score),1000);}
+function finishGame(score){const playtime=Math.round((Date.now()-startTime)/1000);localStorage.setItem("score1",score);if(score>0)localStorage.setItem("crystal1","แดง");const total=Number(localStorage.getItem("pretestScore")||0)+Number(score)+Number(localStorage.getItem("score2")||0)+Number(localStorage.getItem("score3")||0)+Number(localStorage.getItem("score4")||0)+Number(localStorage.getItem("posttestScore")||0);fetch(WEBAPP,{method:"POST",body:JSON.stringify({name:localStorage.getItem("playerName")||"",classroom:localStorage.getItem("playerClass")||"",number:localStorage.getItem("playerNo")||"",stage:"Igneous",score:score,crystal:"แดง",total:total,playtime:String(playtime),device:navigator.userAgent})}).catch(()=>{});document.querySelector(".container").innerHTML=`<div class="result"><div class="crystal">🔴💎</div><h1>🎉 พิชิตหุบเขาหินอัคนีสำเร็จ</h1><h2>${score} / 25 คะแนน</h2><p>💎 ได้รับผลึกสีแดง</p><p>💎 บันทึกคะแนนเรียบร้อยแล้ว</p><p>🏰 กรุณากลับสู่ศูนย์บัญชาการเกม เพื่อทำภารกิจถัดไป</p><a href="${HOME_URL}" class="homeBtn">🏠 กลับสู่ศูนย์บัญชาการเกม</a></div>`;}
+render();
 </script>
 </body>
 </html>
