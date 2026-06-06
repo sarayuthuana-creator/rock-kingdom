@@ -99,6 +99,23 @@ tr td:last-child{border-radius:0 16px 16px 0}
   .top-card{grid-template-columns:1fr}
   th,td{font-size:14px;padding:10px}
 }
+
+.homeBtn{
+  display:inline-block;
+  margin-top:15px;
+  padding:14px 24px;
+  background:linear-gradient(180deg,#ff9800,#f57c00);
+  color:white;
+  text-decoration:none;
+  border-radius:16px;
+  font-size:18px;
+  font-weight:bold;
+  box-shadow:0 5px 0 #e65100;
+  transition:0.2s;
+}
+.homeBtn:hover{transform:translateY(-2px)}
+.homeBtn:active{transform:translateY(3px)}
+
 </style>
 </head>
 <body>
@@ -109,6 +126,7 @@ tr td:last-child{border-radius:0 16px 16px 0}
 <div id="content" class="loading">⏳ กำลังโหลดคะแนน...</div>
 
 <button class="refresh" onclick="loadLeaderboard()">🔄 โหลดคะแนนใหม่</button>
+<p style="text-align:center"><a href="https://krusarayut.my.canva.site/rockkingdom/-home" class="homeBtn">🏠 กลับสู่ศูนย์บัญชาการเกม</a></p>
 <p class="note">คะแนนรวมสูงสุด 120 คะแนน | ดึงข้อมูลจาก Google Sheet</p>
 </div>
 
