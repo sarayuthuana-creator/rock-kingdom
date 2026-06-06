@@ -99,6 +99,23 @@ h1{color:#2e7d32}
  .s7{top:330px;left:10px}.s8{top:140px;left:10px}
  .arrow{font-size:26px}
 }
+
+.homeBtn{
+  display:inline-block;
+  margin-top:15px;
+  padding:14px 24px;
+  background:linear-gradient(180deg,#ff9800,#f57c00);
+  color:white;
+  text-decoration:none;
+  border-radius:16px;
+  font-size:18px;
+  font-weight:bold;
+  box-shadow:0 5px 0 #e65100;
+  transition:0.2s;
+}
+.homeBtn:hover{transform:translateY(-2px)}
+.homeBtn:active{transform:translateY(3px)}
+
 </style>
 </head>
 <body>
@@ -146,6 +163,30 @@ h1{color:#2e7d32}
 
 <script>
 const WEBAPP="https://script.google.com/macros/s/AKfycbwvFtdoQhD6QBjf5P7kZQybUfg_FynntsI4Ond_0PcCFNDq_7vJSeqCXu_i5lbm0njbjQ/exec";
+const HOME_URL="https://krusarayut.my.canva.site/rockkingdom/-home";
+const DONE_URL="https://krusarayut.my.canva.site/rockkingdom/page-10";
+const DONE_LABEL="🎬 ดูคลิปภารกิจสำเร็จ";
+const SCORE_KEY="score4";
+const MISSION_NAME="วงกตวัฏจักรหิน";
+checkAlreadyDone();
+
+function checkAlreadyDone(){
+  const oldScore=localStorage.getItem(SCORE_KEY);
+  if(oldScore!==null){
+    document.querySelector(".container").innerHTML=`
+      <div class="result">
+        <div class="crystal">✅</div>
+        <h1>ภารกิจนี้สำเร็จแล้ว</h1>
+        <h2>คะแนนเดิม: ${oldScore}</h2>
+        <p>คุณเคยทำภารกิจนี้เรียบร้อยแล้ว</p>
+        <p>ไม่จำเป็นต้องทำซ้ำอีกครั้ง</p>
+        <a href="${DONE_URL}" class="homeBtn">${DONE_LABEL}</a>
+      </div>
+    `;
+    throw new Error("Mission already completed");
+  }
+}
+
 
 const answers=[
  "แมกมา","หินอัคนี","ผุพังและกร่อน","ตะกอน",
@@ -269,7 +310,7 @@ function finishGame(score){
  <h2>${score} / 25 คะแนน</h2>
  <p>💎 ได้รับผลึกสีเขียว</p>
  <p>💎 บันทึกคะแนนเรียบร้อยแล้ว</p>
- <p>🏰 กรุณากลับสู่หน้าหลัก เพื่อทำภารกิจถัดไป</p>
+ <p>🎬 ไปชมคลิปภารกิจสำเร็จก่อนกลับศูนย์บัญชาการ</p>\n <a href="https://krusarayut.my.canva.site/rockkingdom/page-10" class="homeBtn">🎬 ดูคลิปภารกิจสำเร็จ</a>
  </div>`;
 }
 
